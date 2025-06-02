@@ -1,0 +1,41 @@
+name: main
+#run-name: ${{ github.actor }} is learning GitHub Actions
+on: [push]
+jobs:
+  gitchg:
+    #runs-on: [ self-hosted, macOS ]
+    runs-on: [ self-hosted, Linux ]
+    permissions:
+      contents: read
+    steps:
+    #- name: Checkout repo
+    #  uses: actions/checkout@v4
+    #- run: |
+    #    echo "pre change"
+    #    echo "gh --version"
+    #    gh --version
+    #    echo "gh auth status"
+    #    gh auth status
+    #    echo "gh api repos/{owner}/{repo}/branches --silent"
+    #    gh api repos/{owner}/{repo}/branches --silent
+    #    echo "env variables"
+    #    env | sort
+      #env:
+        #GH_HOST: ${{ github.server_url }}
+        #GH_TOKEN: ${{ github.token }}
+      #  GH_DEBUG: true
+        #GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: yumemi-inc/changed-files@v3
+      id: changed
+      with:
+        patterns: '**'
+      env:
+        #GH_ENTERPRISE_TOKEN: ${{ secrets.GH_ENTERPRISE_TOKEN }}
+        #GH_HOST: ${{ github.server_url }}
+        GH_DEBUG: true
+    - run: |
+        echo "in Run"
+        for file in ${{ steps.changed.outputs.files }}; do
+          # do somethihg..
+          echo "$file"
+        done
